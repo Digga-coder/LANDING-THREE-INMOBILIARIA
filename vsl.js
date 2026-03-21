@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   `;
   document.head.appendChild(style);
 
-  let config = { delayedButtonSeconds: 300 };
+  let config = { delayedButtonSeconds: 30 };
 
   // 2. Traer configuración (retraso) desde Seenode
   try {
@@ -21,16 +21,29 @@ document.addEventListener('DOMContentLoaded', async () => {
       config = await res.json();
     }
   } catch (err) {
-    console.warn('Usando configuración local de fallback (5 min)');
+    console.warn('Usando configuración local de fallback (30 seg)');
   }
 
-  // 3. Temporizador para mostrar botones
-  const delayMs = config.delayedButtonSeconds * 1000;
-  setTimeout(() => {
-    if (document.head.contains(style)) {
-      document.head.removeChild(style);
-    }
-  }, delayMs);
+  // 3. Temporizador que se inicia al darle al PLAY al primer video
+  let timerStarted = false;
+  const startTimer = () => {
+    if (timerStarted) return;
+    timerStarted = true;
+    
+    const delayMs = config.delayedButtonSeconds * 1000;
+    setTimeout(() => {
+      if (document.head.contains(style)) {
+        document.head.removeChild(style);
+      }
+    }, delayMs);
+  };
+
+  const mainVideo = document.getElementById('video1');
+  if (mainVideo) {
+    mainVideo.addEventListener('play', startTimer);
+  } else {
+    startTimer(); // Fallback inmediato si no se encuentra el video
+  }
 
   // 4. Tracking automático al hacer click
   const botonesCalendly = document.querySelectorAll('.calendly');

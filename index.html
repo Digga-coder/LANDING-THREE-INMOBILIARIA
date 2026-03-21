@@ -1044,7 +1044,7 @@
 
   <section class="video-section">
     <div class="video-container">
-      <video id="video1" autoplay="" loop="" muted="" playsinline="" controls="">
+      <video id="video1" loop="" muted="" playsinline="" controls="">
         <source src="1.mp4" type="video/mp4">
         Tu navegador no soporta el elemento de video.
       </video>
@@ -1346,13 +1346,7 @@
       });
     });
 
-    // Ensure videos play on mobile
-    document.addEventListener('DOMContentLoaded', function() {
-      const videos = document.querySelectorAll('video');
-      videos.forEach(video => {
-        video.play().catch(e => console.log('Autoplay prevented:', e));
-      });
-    });
+
 
     // CTA Flotante - aparece al hacer scroll
     window.addEventListener('scroll', function() {
