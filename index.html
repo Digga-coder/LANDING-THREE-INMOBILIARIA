@@ -1410,8 +1410,8 @@
       const params = new URLSearchParams(window.location.search);
       const leadId = params.get('lead') || '';
       const url = leadId
-        ? `${BACKEND}/r/grupal?l=${encodeURIComponent(leadId)}`
-        : 'https://calendly.com/arkaitzasr24/presentacion-de-negocio-three-inmobiliaria';
+        ? `${BACKEND}/r/individual?l=${encodeURIComponent(leadId)}`
+        : 'https://calendly.com/arkaitzasr24/reunion-1-a-1-three-inmobiliaria';
       window.open(url, '_blank', 'noopener');
       return false;
     }
