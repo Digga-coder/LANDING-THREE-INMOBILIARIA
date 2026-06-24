@@ -909,15 +909,46 @@
     }
 
     .contact-button.calendly {
-      background: #FF6B35;
-      color: #fff;
-      border: 2px solid #FF6B35;
+      background: linear-gradient(135deg, #FF6B35 0%, #FF3D00 100%) !important;
+      color: #fff !important;
+      border: 3px solid #fff !important;
+      padding: 1.6rem 4rem !important;
+      font-size: 1.6rem !important;
+      font-weight: 900 !important;
+      letter-spacing: 1px !important;
+      box-shadow: 0 12px 35px rgba(255, 61, 0, 0.55), 0 0 0 4px rgba(255, 107, 53, 0.25) !important;
+      text-transform: uppercase;
+      transform: scale(1);
+      transition: all 0.25s ease-out;
     }
-    
+
     .contact-button.calendly:hover {
-      background: #E55A2B;
-      border-color: #E55A2B;
-      box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
+      background: linear-gradient(135deg, #FF3D00 0%, #D32F00 100%) !important;
+      transform: scale(1.05) !important;
+      box-shadow: 0 18px 45px rgba(255, 61, 0, 0.7), 0 0 0 6px rgba(255, 107, 53, 0.3) !important;
+    }
+
+    /* Animación pulsante al revelarse el botón (clase añadida por vsl.js) */
+    .contact-button.calendly.calendly-revealed {
+      animation: pulseCTA 1.6s ease-in-out infinite;
+    }
+
+    @keyframes pulseCTA {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 12px 35px rgba(255, 61, 0, 0.55), 0 0 0 4px rgba(255, 107, 53, 0.25);
+      }
+      50% {
+        transform: scale(1.06);
+        box-shadow: 0 18px 50px rgba(255, 61, 0, 0.8), 0 0 0 12px rgba(255, 107, 53, 0.15);
+      }
+    }
+
+    /* El contenedor del CTA centrado y con aire para que destaque */
+    .cta-intermedio {
+      text-align: center;
+      margin: 3rem auto;
+      padding: 1rem;
     }
 
     /* FOOTER */
