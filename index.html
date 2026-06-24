@@ -1403,15 +1403,16 @@
       }
     });
 
-    // Función para abrir Calendly
+    // Abre Calendly de presentación pasando por el redirector del backend
+    // (registra el clic + rellena UTMs con el lead).
     function abrirCalendly() {
-      Calendly.initPopupWidget({
-        url: 'https://calendly.com/nikhollthree/30min',
-        text: 'Agenda tu reunión',
-        color: '#FF6B35',
-        textColor: '#ffffff',
-        branding: true
-      });
+      const BACKEND = 'https://web-78t58qun41lt.up-de-fra1-k8s-1.apps.run-on-seenode.com';
+      const params = new URLSearchParams(window.location.search);
+      const leadId = params.get('lead') || '';
+      const url = leadId
+        ? `${BACKEND}/r/grupal?l=${encodeURIComponent(leadId)}`
+        : 'https://calendly.com/arkaitzasr24/presentacion-de-negocio-three-inmobiliaria';
+      window.open(url, '_blank', 'noopener');
       return false;
     }
   </script>
