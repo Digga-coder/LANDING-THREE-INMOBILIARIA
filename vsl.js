@@ -47,11 +47,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   };
 
-  let timerStarted = false;
-  const startFallbackTimer = () => {
-    if (timerStarted) return;
-    timerStarted = true;
-    setTimeout(() => revealButton('timer_fallback'), config.delayedButtonSeconds * 1000);
+  // ─── Desbloqueo gradual del webinar (Paso 2) ──────────────────────
+  let webinarUnlocked = false;
+  const unlockWebinar = (motivo) => {
+    if (webinarUnlocked) return;
+    webinarUnlocked = true;
+    const wrapper = document.getElementById('webinarWrapper');
+    if (wrapper) {
+      wrapper.classList.remove('locked');
+      wrapper.classList.add('webinar-unlock-flash');
+      wrapper.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    sendEvent('webinar_unlocked', { motivo });
+  };
+
+  // ─── Paso 3: vídeos extra (se abren al 90% del webinar) ───────────
+  let extrasUnlocked = false;
+  const unlockExtras = (motivo) => {
+    if (extrasUnlocked) return;
+    extrasUnlocked = true;
+    document.querySelectorAll('.js-extra').forEach((w) => {
+      w.classList.remove('locked');
+      w.classList.add('webinar-unlock-flash');
+    });
+    sendEvent('extras_unlocked', { motivo });
   };
 
   // ─── 3. Configurar TODOS los vídeos de la página ──────────────────
@@ -77,9 +96,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Tracking de play/progreso/end por vídeo
     let firedPlay = false;
     const fired = { 25: false, 50: false, 75: false };
+    let fired90 = false;
 
     video.addEventListener('play', () => {
-      startFallbackTimer();
       if (!firedPlay) {
         firedPlay = true;
         sendEvent('video_play', { videoId });
@@ -93,18 +112,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!fired[milestone] && pct >= milestone) {
           fired[milestone] = true;
           sendEvent(`video_progress_${milestone}`, { videoId });
-
-          // El 50% del vídeo principal desbloquea el botón
-          if (videoId === 'video1' && milestone === 50) {
-            revealButton('video1_50pct');
-          }
         }
+      }
+      // Desbloqueo por pasos al 90% del tiempo visto (filtro real).
+      if (!fired90 && pct >= 90) {
+        fired90 = true;
+        sendEvent('video_progress_90', { videoId });
+        // Paso 1 → Paso 2: el VSL abre el webinar
+        if (videoId === 'video1') unlockWebinar('vsl_90pct');
+        // Paso 2 → CTA + Paso 3: el webinar revela el botón y abre los extra
+        if (videoId === 'videoWebinar') { revealButton('webinar_90pct'); unlockExtras('webinar_90pct'); }
       }
     });
 
     video.addEventListener('ended', () => {
       sendEvent('video_complete', { videoId });
-      if (videoId === 'video1') revealButton('video1_complete');
+      if (videoId === 'video1') unlockWebinar('video1_complete');
+      if (videoId === 'videoWebinar') { revealButton('webinar_complete'); unlockExtras('webinar_complete'); }
     });
   });
 

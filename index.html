@@ -1050,7 +1050,7 @@
       <li><a href="#beneficios">Beneficios</a></li>
       <li><a href="#herramientas">Herramientas</a></li>
       <li><a href="#perfiles">Perfiles</a></li>
-      <li><a href="#testimonios">Testimonios</a></li>
+      <!-- <li><a href="#testimonios">Testimonios</a></li> -->  <!-- oculto de momento -->
       <li><a href="#contacto">Contacto</a></li>
     </ul>
   </nav>
@@ -1063,7 +1063,7 @@
         Tu Éxito en el <span class="highlight">Sector Inmobiliario</span>
       </h1>
       <p>Accede a propiedades reales y un ecosistema digital completo para agentes que quieren cerrar operaciones más rápido y con confianza. <strong>Gestiona propiedades con un valor de mercado potencial de hasta 400.000€</strong> desde el primer día.</p>
-      <a href="#contacto" class="cta-primary">Quiero Acelerar Mis Ventas Ahora</a>
+      <a href="#paso1-vsl" class="cta-primary">Quiero Acelerar Mis Ventas Ahora</a>
       <a href="#beneficios" class="cta-secondary">Ver Cómo Funciona</a>
       <div style="margin-top: 20px;">
         <button onclick="abrirCalendly()" class="contact-button calendly" style="display: inline-block; padding: 14px 28px; font-size: 16px; border: none; cursor: pointer;">
@@ -1073,9 +1073,25 @@
     </div>
   </section>
 
-  <section class="video-section">
+  <!-- ============ EMBUDO POR PASOS (desbloqueo gradual) ============ -->
+  <style id="funnel-styles">
+    .paso-badge{display:inline-block;background:linear-gradient(135deg,#311B92,#FF6B35);color:#fff;font-weight:800;letter-spacing:1px;padding:6px 18px;border-radius:999px;margin:0 0 14px;font-size:.8rem;text-transform:uppercase}
+    .webinar-wrapper{position:relative;overflow:hidden}
+    .webinar-wrapper.locked video{filter:blur(16px) brightness(.45);pointer-events:none;transform:scale(1.05)}
+    .webinar-lock{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;text-align:center;background:rgba(20,8,60,.55);border-radius:inherit;transition:opacity .6s ease}
+    .webinar-wrapper:not(.locked) .webinar-lock{opacity:0;pointer-events:none}
+    .webinar-lock-inner{max-width:440px;padding:1.5rem;color:#fff}
+    .webinar-lock .lock-icon{font-size:3.2rem;margin-bottom:.5rem}
+    .webinar-lock .lock-title{font-size:1.5rem;font-weight:800;margin-bottom:.5rem}
+    .webinar-lock .lock-text{font-size:1.05rem;opacity:.92;line-height:1.5}
+    .webinar-unlock-flash{animation:webinarPulse 1s ease 2}
+    @keyframes webinarPulse{0%,100%{box-shadow:0 0 0 rgba(255,107,53,0)}50%{box-shadow:0 0 45px rgba(255,107,53,.85)}}
+  </style>
+
+  <section class="video-section" id="paso1-vsl">
+    <span class="paso-badge">Paso 1 · Vídeo</span>
     <div class="video-container">
-      <video id="video1" loop="" muted="" playsinline="" controls="">
+      <video id="video1" playsinline="" controls="">
         <source src="1.mp4" type="video/mp4">
         Tu navegador no soporta el elemento de video.
       </video>
@@ -1084,14 +1100,46 @@
     <p class="video-description">Descubre cómo Three Inmobiliaria está transformando el sector inmobiliario digital.</p>
   </section>
 
-  <section class="video-section" id="presentacion">
-    <div class="video-container">
-      <video id="videoGeneral" playsinline="" controls="">
-        <source src="general.mp4" type="video/mp4">
+  <section class="video-section" id="paso2-webinar">
+    <span class="paso-badge">Paso 2 · Webinar completo</span>
+    <div class="video-container webinar-wrapper locked" id="webinarWrapper">
+      <video id="videoWebinar" playsinline="" controls="" preload="none">
+        <source src="webinar.mp4" type="video/mp4">
         Tu navegador no soporta el elemento de video.
       </video>
+      <div class="webinar-lock" id="webinarLock">
+        <div class="webinar-lock-inner">
+          <div class="lock-icon">🔒</div>
+          <div class="lock-title">Webinar bloqueado</div>
+          <div class="lock-text">Termina de ver el vídeo del Paso 1 para desbloquear el webinar completo de Three Inmobiliaria.</div>
+        </div>
+      </div>
     </div>
-    <p class="video-description">Presentación general del proyecto Three Inmobiliaria.</p>
+    <p class="video-description">Webinar completo: cómo funciona Three Inmobiliaria por dentro (17 min).</p>
+  </section>
+
+  <section class="video-section" id="vikingo-extra">
+    <span class="paso-badge">Extra</span>
+    <div class="video-container webinar-wrapper locked js-extra">
+      <video id="videoVikingo" playsinline="" controls="" preload="none">
+        <source src="vikingo.mp4" type="video/mp4">
+        Tu navegador no soporta el elemento de video.
+      </video>
+      <div class="webinar-lock"><div class="webinar-lock-inner"><div class="lock-icon">🔒</div><div class="lock-title">Disponible tras el webinar</div></div></div>
+    </div>
+    <p class="video-description">Vídeo extra del equipo.</p>
+  </section>
+
+  <section class="video-section" id="portugal-extra">
+    <span class="paso-badge">Extra · Portugal 🇵🇹</span>
+    <div class="video-container webinar-wrapper locked js-extra">
+      <video id="videoPortugal" playsinline="" controls="" preload="none">
+        <source src="portugal.mp4" type="video/mp4">
+        Tu navegador no soporta el elemento de video.
+      </video>
+      <div class="webinar-lock"><div class="webinar-lock-inner"><div class="lock-icon">🔒</div><div class="lock-title">Disponible tras el webinar</div></div></div>
+    </div>
+    <p class="video-description">Ya operamos también en Portugal 🇵🇹.</p>
   </section>
 
   <div class="trust-bar">
@@ -1134,7 +1182,6 @@
             <source src="2.mp4" type="video/mp4">
             Tu navegador no soporta el elemento de video.
           </video>
-
         </div>
       </div>
     </div>
@@ -1152,7 +1199,6 @@
           <source src="3.5.mp4" type="video/mp4">
           Tu navegador no soporta el elemento de video.
         </video>
-
       </div>
     </div>
     
@@ -1271,7 +1317,8 @@
     </button>
   </div>
 
-  <section id="testimonios" class="testimonials-section">
+  <!-- TESTIMONIOS OCULTOS DE MOMENTO. Para reactivar: quita el style="display:none". -->
+  <section id="testimonios" class="testimonials-section" style="display:none">
     <div class="testimonials-header">
       <h2>Experiencias de Profesionales del Sector</h2>
       <p>Historias reales de agentes que transformaron su carrera con Three Inmobiliaria</p>
@@ -1283,7 +1330,6 @@
           <source src="3.mp4" type="video/mp4">
           Tu navegador no soporta el elemento de video.
         </video>
-
       </div>
     </div>
     
@@ -1416,5 +1462,5 @@
       return false;
     }
   </script>
-  <script src="/vsl.js"></script>
+  <script src="vsl.js"></script>
 </body></html>
