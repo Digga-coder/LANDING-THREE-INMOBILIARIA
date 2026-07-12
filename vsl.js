@@ -94,9 +94,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   const videos = document.querySelectorAll('video');
   videos.forEach((video) => {
     const videoId = video.id || `video_${Array.from(videos).indexOf(video)}`;
-    // Solo persistimos/reanudamos la posición de los vídeos del embudo, no
-    // los decorativos (autoplay/muted en bucle).
+    // Los vídeos del embudo (VSL, webinar, extras) se rastrean y persisten.
+    // Los DECORATIVOS (autoplay) son pura decoración de la web: los dejamos
+    // sonando en bucle sin volumen y NO los rastreamos (no deben salir en el
+    // CRM ni en "En directo").
     const esFunnel = !video.autoplay;
+    if (!esFunnel) {
+      video.muted = true;
+      video.loop = true;
+      video.play().catch(() => {});
+      return; // sin tracking, sin bloqueo de seek, sin persistencia
+    }
 
     // Restaurar la posición donde lo dejó (cuando el vídeo sepa su duración).
     if (esFunnel && saved.maxTime[videoId]) {
