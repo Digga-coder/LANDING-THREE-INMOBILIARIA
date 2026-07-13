@@ -53,6 +53,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     buttonRevealed = true;
     if (document.head.contains(style)) document.head.removeChild(style);
     document.querySelectorAll('.calendly').forEach((btn) => btn.classList.add('calendly-revealed'));
+    // El botón flotante se queda FIJO en pantalla a partir de aquí (sin depender
+    // del scroll): agendar el 1-a-1 es el paso clave, tiene que estar siempre a la vista.
+    const flot = document.getElementById('ctaFlotante');
+    if (flot) flot.classList.add('cta-persist');
     saved.boton = true; persist();
     if (!silent) sendEvent('calendly_button_revealed', { motivo });
   };

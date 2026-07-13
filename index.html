@@ -1040,6 +1040,74 @@
         right: 15px;
       }
     }
+
+    /* ═══════════════════════════════════════════════════════════════
+       MÁXIMA VISIBILIDAD DEL BOTÓN DE AGENDAR (el paso más importante:
+       el 1-a-1 con Arkaitz). Los botones .calendly siguen ocultos hasta
+       que el webinar los desbloquea (.calendly-revealed); a partir de ahí
+       se hacen ENORMES, laten y el flotante se queda fijo en pantalla para
+       que sea imposible no verlo mientras se hace scroll.
+       ══════════════════════════════════════════════════════════════ */
+
+    /* Todos los botones desbloqueados laten */
+    .calendly.calendly-revealed {
+      animation: pulseCTA 1.5s ease-in-out infinite !important;
+    }
+
+    /* CTA intermedios: bloques anchos y grandes */
+    .cta-intermedio .calendly {
+      width: 90% !important;
+      max-width: 640px !important;
+      padding: 1.7rem 2rem !important;
+      font-size: 1.7rem !important;
+      font-weight: 900 !important;
+      border-width: 3px !important;
+      line-height: 1.25 !important;
+      box-shadow: 0 14px 40px rgba(255, 61, 0, 0.45) !important;
+    }
+
+    /* CTA final: el más grande de todos */
+    .final-cta .contact-button.calendly {
+      width: 100% !important;
+      max-width: 620px !important;
+      padding: 1.9rem 2.5rem !important;
+      font-size: 1.9rem !important;
+    }
+
+    /* Flotante → barra fija centrada, grande y PERSISTENTE tras desbloquear.
+       (Esta landing no tenía CSS de .cta-flotante: lo definimos entero.) */
+    .cta-flotante {
+      position: fixed;
+      left: 50%;
+      right: auto;
+      bottom: 20px;
+      transform: translateX(-50%) translateY(20px);
+      z-index: 1000;
+      opacity: 0;
+      display: none;
+      max-width: 92vw;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .cta-flotante.visible,
+    .cta-flotante.cta-persist {
+      opacity: 1 !important;
+      transform: translateX(-50%) translateY(0) !important;
+      display: block !important;
+    }
+    .cta-flotante .calendly {
+      padding: 1.35rem 2.8rem !important;
+      font-size: 1.4rem !important;
+      font-weight: 900 !important;
+      border-radius: 50px !important;
+      box-shadow: 0 12px 34px rgba(255, 61, 0, 0.5) !important;
+    }
+
+    @media (max-width: 768px) {
+      .cta-intermedio .calendly { font-size: 1.3rem !important; padding: 1.4rem 1.2rem !important; width: 94% !important; }
+      .final-cta .contact-button.calendly { font-size: 1.4rem !important; padding: 1.5rem 1rem !important; }
+      .cta-flotante { width: 94vw; bottom: 80px; }
+      .cta-flotante .calendly { width: 100%; font-size: 1.25rem !important; padding: 1.2rem 1rem !important; }
+    }
   </style>
 </head>
 <body>
