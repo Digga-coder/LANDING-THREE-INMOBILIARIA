@@ -33,10 +33,41 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   sendEvent('landing_view', { perfil: PERFIL, url: window.location.href });
 
-  // ─── 1. Ocultar todos los botones de Calendly hasta el desbloqueo ──
+  // ─── 1. El botón de reservar: VISIBLE pero BLOQUEADO ──────────────
+  // Antes se ocultaba del todo y el lead no sabía que existía. Ahora se ve un
+  // cartel grande y bloqueado en su lugar: ve el premio y entiende que se
+  // desbloquea terminando el webinar. Es a propósito — a la 1-a-1 se viene con
+  // la presentación vista, para no hacerle perder el tiempo a nadie.
   const style = document.createElement('style');
-  style.innerHTML = `.calendly { display: none !important; }`;
+  style.innerHTML = `
+    .calendly { display: none !important; }
+    .cal-bloqueado{display:block;margin:1.4rem auto;max-width:560px;padding:18px 24px;border-radius:16px;
+      background:linear-gradient(135deg,#efeaf9,#faf7ff);border:2px dashed #b9aed6;color:#4b3b7a;
+      text-align:center;font-weight:800;font-size:16px;line-height:1.45;cursor:not-allowed;user-select:none;
+      box-shadow:0 6px 20px rgba(49,27,146,.06)}
+    .cal-bloqueado .cal-lock{display:block;font-size:1.9rem;margin-bottom:6px;opacity:.85}
+    .cal-bloqueado small{display:block;font-weight:600;font-size:13px;opacity:.85;margin-top:7px}
+  `;
   document.head.appendChild(style);
+
+  const HTML_BLOQUEADO =
+    '<span class="cal-lock">🔒</span>Reserva tu reunión 1 a 1 con Arkaitz' +
+    '<small>Se desbloquea al terminar el webinar. Lo hacemos así a propósito: a la reunión se viene ' +
+    'con la presentación ya vista, para no hacerte perder el tiempo.</small>';
+
+  // Pone un cartel bloqueado justo donde iría cada botón de reservar.
+  // El flotante se queda oculto (ahí un cartel grande estorbaría).
+  function pintarBloqueados() {
+    document.querySelectorAll('.calendly').forEach((btn) => {
+      if (btn.dataset.lockPintado || btn.closest('.cta-flotante')) return;
+      btn.dataset.lockPintado = '1';
+      const cartel = document.createElement('div');
+      cartel.className = 'cal-bloqueado';
+      cartel.innerHTML = HTML_BLOQUEADO;
+      btn.parentNode.insertBefore(cartel, btn);
+    });
+  }
+  pintarBloqueados();
 
   let config = { delayedButtonSeconds: 60 };
   try {
@@ -51,6 +82,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const revealButton = (motivo, silent) => {
     if (buttonRevealed) return;
     buttonRevealed = true;
+    // Fuera los carteles bloqueados: ya se lo ha ganado, ahora van los botones
+    document.querySelectorAll('.cal-bloqueado').forEach((el) => el.remove());
     if (document.head.contains(style)) document.head.removeChild(style);
     document.querySelectorAll('.calendly').forEach((btn) => btn.classList.add('calendly-revealed'));
     // El botón flotante se queda FIJO en pantalla a partir de aquí (sin depender
