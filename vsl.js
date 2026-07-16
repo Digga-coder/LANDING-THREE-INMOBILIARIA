@@ -168,7 +168,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
     video.addEventListener('seeking', () => {
-      if (video.currentTime > maxTimeReached + 1) video.currentTime = maxTimeReached;
+      // Solo bloquea si intenta ir ADELANTE más allá de lo visto.
+      // Rebobinar hacia atrás (currentTime < maxTimeReached): permitido siempre.
+      // Esto evita que se resetee al principio si el user rebobina unos segundos.
+      if (video.currentTime > maxTimeReached + 1) {
+        video.currentTime = maxTimeReached;
+      }
+      // Si va hacia atrás, no hacemos nada (se permite el rebobinado)
     });
     video.addEventListener('pause', () => {
       if (esFunnel) { saved.maxTime[videoId] = maxTimeReached; persist(); }
