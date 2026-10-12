@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.head.appendChild(style);
 
   const HTML_BLOQUEADO =
-    '<span class="cal-lock">🔒</span>Reserva tu reunión 1 a 1 con Arkaitz' +
-    '<small>Se desbloquea al terminar el webinar. Lo hacemos así a propósito: a la reunión se viene ' +
+    '<span class="cal-lock">🔒</span>Apúntate a la sesión de dudas con Arkaitz' +
+    '<small>Se desbloquea al terminar el webinar. Lo hacemos así a propósito: a la sesión se viene ' +
     'con la presentación ya vista, para no hacerte perder el tiempo.</small>';
 
   // Pone un cartel bloqueado justo donde iría cada botón de reservar.

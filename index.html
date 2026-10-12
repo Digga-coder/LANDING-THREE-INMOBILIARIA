@@ -1185,7 +1185,7 @@
     </div>
     <p class="video-description">Presentación completa del proyecto, tras el evento nacional (33 min).</p>
     <div style="text-align:center;margin-top:1.2rem;">
-      <button onclick="abrirCalendly()" class="contact-button calendly" style="display:inline-block;padding:14px 28px;font-size:16px;border:none;cursor:pointer;">📅 Reservar mi reunión 1 a 1</button>
+      <button onclick="abrirCalendly()" class="contact-button calendly" style="display:inline-block;padding:14px 28px;font-size:16px;border:none;cursor:pointer;">📅 Apuntarme a la sesión de dudas</button>
     </div>
   </section>
 
@@ -1516,7 +1516,7 @@
       const leadId = params.get('lead') || '';
       const url = leadId
         ? `${BACKEND}/r/individual?l=${encodeURIComponent(leadId)}`
-        : 'https://calendly.com/arkaitzasr24/reunion-1-a-1-three-inmobiliaria';
+        : 'https://calendly.com/arkaitzasr24/nueva-reunion';
       window.open(url, '_blank', 'noopener');
       return false;
     }
