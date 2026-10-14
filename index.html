@@ -1514,10 +1514,24 @@
       const BACKEND = 'https://web-78t58qun41lt.up-de-fra1-k8s-1.apps.run-on-seenode.com';
       const params = new URLSearchParams(window.location.search);
       const leadId = params.get('lead') || '';
-      const url = leadId
-        ? `${BACKEND}/r/individual?l=${encodeURIComponent(leadId)}`
-        : 'https://calendly.com/arkaitzasr24/nueva-reunion';
-      window.open(url, '_blank', 'noopener');
+      // Calendly se abre DIRECTAMENTE (no a través del servidor): si el
+      // servidor estuviera caído, la reserva se hace igual. El lead viaja en
+      // utm_content=lead_<id>, que es lo que lee el CRM al confirmar la reserva.
+      const cal = new URL('https://calendly.com/arkaitzasr24/nueva-reunion');
+      if (leadId) {
+        cal.searchParams.set('utm_source', 'embudo');
+        cal.searchParams.set('utm_medium', 'landing');
+        cal.searchParams.set('utm_content', 'lead_' + leadId);
+        // Aviso al CRM en segundo plano; si falla, no pasa nada.
+        try {
+          fetch(`${BACKEND}/tracking/event`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ leadId, type: 'calendly_intent', meta: { tipo: 'individual', via: 'landing' } }),
+            keepalive: true,
+          }).catch(function () {});
+        } catch (e) {}
+      }
+      window.open(cal.toString(), '_blank', 'noopener');
       return false;
     }
   </script>
